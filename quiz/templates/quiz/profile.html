@@ -1,0 +1,12 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Profile - QuizVerse{% endblock %}
+
+{% block content %}
+    <h2>Update Profile</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+{% endblock %}

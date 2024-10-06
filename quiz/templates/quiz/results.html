@@ -1,0 +1,43 @@
+<!-- quiz/templates/quiz/results.html -->
+{% extends 'quiz/base.html' %}
+
+{% block title %}Quiz Results - {{ quiz_bank.name }}{% endblock %}
+
+{% block content %}
+    <h1>Results for {{ quiz_bank.name }}</h1>
+
+    {% if latest_attempt %}
+        <h2>Attempt Date: {{ latest_attempt.attempt_date }}</h2>
+        <h3>Score: {{ latest_attempt.score }} / {{ latest_attempt.total_questions }}</h3>
+
+        <h4>Details:</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Your Answers</th>
+                    <th>Correct Answers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in candidate_answers %}
+                    <tr>
+                        <td>{{ answer.question.question_text }}</td>
+                        <td>
+                            {% for selected_answer in answer.selected_answers %}
+                                <span class="{% if answer.score == 0 %}text-danger{% endif %}">{{ selected_answer }}</span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for correct_answer in answer.question.get_correct_answers %}
+                                <span class="text-success">{{ correct_answer }}</span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No attempts found for this quiz.</p>
+    {% endif %}
+{% endblock %}

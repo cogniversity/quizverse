@@ -1,0 +1,49 @@
+<!-- quiz/templates/quiz/home.html -->
+{% extends 'quiz/base.html' %}
+
+{% block title %}Home - QuizVerse{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Welcome to QuizVerse</h1>
+
+    <h2 class="mt-4">Select a Quiz Bank</h2>
+
+    {% if quiz_banks %}
+        <ul class="list-group mb-4">
+            {% for quiz in quiz_banks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'quiz_view' quiz.id %}" class="text-decoration-none">{{ quiz.name }}</a>
+                    <div>
+                        <a href="{% url 'remove_quiz_bank' quiz.id %}" class="btn btn-danger btn-sm">Remove</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            No quiz banks available. Please add a new quiz bank to get started!
+        </div>
+    {% endif %}
+
+    <h2 class="mt-4">Add a New Quiz Bank</h2>
+    <form method="POST" action="{% url 'add_quiz_bank' %}" class="mb-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="quiz_bank_name" class="form-label">Quiz Bank Name</label>
+            <input type="text" class="form-control" name="quiz_bank_name" required placeholder="Enter quiz bank name">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Quiz Bank</button>
+    </form>
+
+    <h2 class="mt-4">Upload Questions</h2>
+    <p class="mb-2">Upload questions in JSON format to your selected quiz bank.</p>
+    <form method="GET" action="{% url 'upload_questions' %}">
+        <button type="submit" class="btn btn-secondary">Upload Questions from JSON</button>
+    </form>
+
+    {% for message in messages %}
+        <div class="alert alert-info mt-3">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

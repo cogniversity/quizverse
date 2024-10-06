@@ -1,0 +1,13 @@
+<!-- quiz/templates/quiz/upload_questions.html -->
+{% extends 'quiz/base.html' %}
+
+{% block title %}Upload Questions{% endblock %}
+
+{% block content %}
+    <h1>Upload Questions</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+{% endblock %}

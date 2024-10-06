@@ -1,0 +1,33 @@
+<!-- quiz/templates/quiz/quiz_history.html -->
+{% extends 'quiz/base.html' %}
+
+{% block title %}Quiz History - QuizVerse{% endblock %}
+
+{% block content %}
+    <h1>Your Quiz Attempt History</h1>
+
+    {% if attempts %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Quiz Bank</th>
+                    <th>Score</th>
+                    <th>Total Questions</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attempt in attempts %}
+                    <tr>
+                        <td>{{ attempt.quiz_bank.name }}</td>
+                        <td>{{ attempt.score }}</td>
+                        <td>{{ attempt.total_questions }}</td>
+                        <td>{{ attempt.attempt_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have not attempted any quizzes yet.</p>
+    {% endif %}
+{% endblock %}
